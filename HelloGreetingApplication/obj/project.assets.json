@@ -492,11 +492,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\HelloGreetingApplication\\HelloGreetingApplication.csproj",
+      "projectUniqueName": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\HelloGreetingApplication\\HelloGreetingApplication.csproj",
       "projectName": "HelloGreetingApplication",
-      "projectPath": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\HelloGreetingApplication\\HelloGreetingApplication.csproj",
+      "projectPath": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\HelloGreetingApplication\\HelloGreetingApplication.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\HelloGreetingApplication\\obj\\",
+      "outputPath": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\HelloGreetingApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -517,8 +517,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\BusinessLayer\\BusinessLayer.csproj": {
-              "projectPath": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\BusinessLayer\\BusinessLayer.csproj"
+            "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\BusinessLayer\\BusinessLayer.csproj": {
+              "projectPath": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\BusinessLayer\\BusinessLayer.csproj"
             }
           }
         }

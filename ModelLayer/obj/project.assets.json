@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\ModelLayer\\ModelLayer.csproj",
+      "projectUniqueName": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\ModelLayer\\ModelLayer.csproj",
       "projectName": "ModelLayer",
-      "projectPath": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\ModelLayer\\ModelLayer.csproj",
+      "projectPath": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\ModelLayer\\ModelLayer.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\Dotnet Framework\\HelloGreeting\\HelloGreetingApplication\\ModelLayer\\obj\\",
+      "outputPath": "D:\\Dotnet Framework\\GreetingappwithVs\\GreetingApp_2115000999\\ModelLayer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
