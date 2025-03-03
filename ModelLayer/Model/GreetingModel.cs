@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.Interface
+namespace ModelLayer.Model
 {
-    public interface IGreetingBL
+    public class GreetingModel
     {
-        string GetGreetingMessage();
+        public string Message { get; set; }
     }
 }
