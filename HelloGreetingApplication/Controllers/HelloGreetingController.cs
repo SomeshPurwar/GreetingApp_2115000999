@@ -1,3 +1,4 @@
+using BusinessLayer.Interface;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.Model;
@@ -12,6 +13,12 @@ namespace HelloGreetingApplication.Controllers
     public class HelloGreetingController : ControllerBase
     {
         private static Dictionary<string, string> greetings = new Dictionary<string, string>();
+        private readonly IGreetingBL _greetingBL;
+
+        public HelloGreetingController(IGreetingBL greetingBL)
+        {
+            _greetingBL = greetingBL;
+        }
 
         /// <summary>
         /// Get method to get the greeting message
@@ -141,6 +148,22 @@ namespace HelloGreetingApplication.Controllers
                 Data = $"Key: {key}, Value: {greetings[key]}"
             });
         }
+
+        [HttpGet("Greet")]
+        public IActionResult GetGreeting()
+        {
+            var greetingMessage = _greetingBL.GetGreetingMessage();
+            var response = new ResponseModel<string>
+            {
+                Success = true,
+                Message = "Greeting retrieved successfully.",
+                Data = greetingMessage
+            };
+
+            return Ok(response);
+        }
+
+
 
     }
 }
