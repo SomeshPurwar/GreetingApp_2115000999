@@ -149,10 +149,13 @@ namespace HelloGreetingApplication.Controllers
             });
         }
 
+        /// <summary>
+        /// Get a greeting message.
+        /// </summary>
         [HttpGet("Greet")]
         public IActionResult GetGreeting()
         {
-            var greetingMessage = _greetingBL.GetGreetingMessage();
+            var greetingMessage = _greetingBL.GetGreetingMessage(null,null);
             var response = new ResponseModel<string>
             {
                 Success = true,
@@ -162,6 +165,41 @@ namespace HelloGreetingApplication.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// Get a greeting message based on user name.
+        /// </summary>
+        //[HttpGet("personalizedgreet")]
+        //public IActionResult GetGreeting([FromQuery] string? firstName=null, [FromQuery] string lastName)
+        //{
+        //    var greetingMessage = _greetingBL.GetGreetingMessage(firstName, lastName);
+        //    var response = new ResponseModel<string>
+        //    {
+        //        Success = true,
+        //        Message = "Greeting retrieved successfully.",
+        //        Data = greetingMessage
+        //    };
+
+        //    return Ok(response);
+        //}
+
+        /// <summary>
+        /// Post method to get a greeting using a request body.
+        /// </summary>
+        [HttpPost("personalizedgreet")]
+        public IActionResult PostGreeting([FromBody] GreetingRequestModel requestModel)
+        {
+            var greetingMessage = _greetingBL.GetPersonalizedGreeting(requestModel);
+            var response = new ResponseModel<string>
+            {
+                Success = true,
+                Message = "Personalized greeting created successfully.",
+                Data = greetingMessage
+            };
+
+            return Ok(response);
+        }
+
 
 
 
