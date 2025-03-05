@@ -2,6 +2,7 @@ using BusinessLayer.Interface;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.Model;
+using RepositoryLayer.DTO;
 
 namespace HelloGreetingApplication.Controllers
 {
@@ -198,6 +199,42 @@ namespace HelloGreetingApplication.Controllers
             };
 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Post methdd to add greetings
+        /// </summary>
+        /// <param name="greetingDTO"></param>
+        /// <returns>ResponseModel</returns>
+        [HttpPost("addgreet")]
+        public IActionResult Post([FromBody] GreetingDTO greetingDTO)
+        {
+            if (greetingDTO == null || string.IsNullOrWhiteSpace(greetingDTO.Key) || string.IsNullOrWhiteSpace(greetingDTO.Value))
+            {
+                return BadRequest(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "Key and Value are required.",
+                    Data = null
+                });
+            }
+
+            if (!_greetingBL.AddGreeting(greetingDTO))
+            {
+                return Conflict(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "Greeting with this key already exists.",
+                    Data = null
+                });
+            }
+
+            return Ok(new ResponseModel<string>
+            {
+                Success = true,
+                Message = "Greeting added successfully.",
+                Data = $"{greetingDTO.Key}:{greetingDTO.Value}"
+            });
         }
 
 

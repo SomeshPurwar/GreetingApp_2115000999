@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ModelLayer.Model;
+using RepositoryLayer.DTO;
 
 namespace BusinessLayer.Interface
 {
@@ -13,5 +14,7 @@ namespace BusinessLayer.Interface
 
         string GetGreetingMessage(string firstName, string lastName);
         string GetPersonalizedGreeting(GreetingRequestModel request);
+
+        bool AddGreeting(GreetingDTO greetingDTO);
     }
 }
