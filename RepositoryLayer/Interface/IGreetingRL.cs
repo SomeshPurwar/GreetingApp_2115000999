@@ -17,5 +17,7 @@ namespace RepositoryLayer.Interface
         List<GreetingDTO> GetAllGreetings();
 
         bool UpdateGreeting(int id, string newValue);
+
+        bool DeleteGreeting(int id);
     }
 }

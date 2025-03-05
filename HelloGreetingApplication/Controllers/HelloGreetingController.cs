@@ -237,6 +237,10 @@ namespace HelloGreetingApplication.Controllers
             });
         }
 
+        /// <summary>
+        /// Get method to retrieve all greeting messages.
+        /// </summary>
+        /// <returns>List of all stored greetings.</returns>
         [HttpGet("getallgreeting")]
         public IActionResult GetAllGreetings()
         {
@@ -250,6 +254,12 @@ namespace HelloGreetingApplication.Controllers
             });
         }
 
+        /// <summary>
+        /// Put method to update an existing greeting message.
+        /// </summary>
+        /// <param name="id">Greeting ID.</param>
+        /// <param name="newValue">New greeting message.</param>
+        /// <returns>ResponseModel indicating success or failure.</returns>
         [HttpPut("{id:int}")]
         public IActionResult UpdateGreeting(int id, [FromBody] string newValue)
         {
@@ -278,6 +288,32 @@ namespace HelloGreetingApplication.Controllers
                 Success = true,
                 Message = "Greeting updated successfully.",
                 Data = newValue
+            });
+        }
+        /// <summary>
+        /// Delete method to remove a greeting message by its ID.
+        /// </summary>
+        /// <param name="id">Greeting ID.</param>
+        /// <returns>ResponseModel indicating success or failure.</returns>
+        [HttpDelete("{id:int}")]
+        public IActionResult DeleteGreeting(int id)
+        {
+            bool success = _greetingBL.DeleteGreeting(id);
+            if (!success)
+            {
+                return NotFound(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "Greeting not found.",
+                    Data = null
+                });
+            }
+
+            return Ok(new ResponseModel<string>
+            {
+                Success = true,
+                Message = "Greeting deleted successfully.",
+                Data = id.ToString()
             });
         }
 
