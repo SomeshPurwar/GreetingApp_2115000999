@@ -19,6 +19,13 @@ namespace RepositoryLayer.Service
             _context = context;
         }
 
+        public List<GreetingDTO> GetAllGreetings()
+        {
+            return _context.Greetings
+                .Select(g => new GreetingDTO { Key = g.Key, Value = g.Value })
+                .ToList();
+        }
+
         public GreetingDTO GetGreetingById(int id)
         {
             var greeting = _context.Greetings.FirstOrDefault(g => g.Id == id);

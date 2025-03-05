@@ -237,6 +237,19 @@ namespace HelloGreetingApplication.Controllers
             });
         }
 
+        [HttpGet("getallgreeting")]
+        public IActionResult GetAllGreetings()
+        {
+            List<GreetingDTO> greetings = _greetingBL.GetAllGreetings();
+
+            return Ok(new ResponseModel<List<GreetingDTO>>
+            {
+                Success = true,
+                Message = "Greetings retrieved successfully.",
+                Data = greetings
+            });
+        }
+
 
 
 
