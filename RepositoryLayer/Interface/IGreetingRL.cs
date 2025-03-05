@@ -13,5 +13,7 @@ namespace RepositoryLayer.Interface
         string GetGreeting();
         bool AddGreeting(GreetingDTO greetingDTO);
         GreetingDTO GetGreetingById(int id);
+
+        List<GreetingDTO> GetAllGreetings();
     }
 }
