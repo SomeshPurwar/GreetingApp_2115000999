@@ -16,12 +16,14 @@ namespace BusinessLayer.Interface
         string GetPersonalizedGreeting(GreetingRequestModel request);
 
         bool AddGreeting(GreetingDTO greetingDTO);
+<<<<<<< HEAD
 
-        GreetingDTO GetGreetingById(int id);
-	List<GreetingDTO> GetAllGreetings();
+        List<GreetingDTO> GetAllGreetings();
 
         bool UpdateGreeting(int id, string newValue);
         bool DeleteGreeting(int id);
-        
+=======
+        GreetingDTO GetGreetingById(int id);
+>>>>>>> UC5
     }
 }

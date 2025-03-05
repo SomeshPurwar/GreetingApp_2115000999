@@ -19,6 +19,7 @@ namespace BusinessLayer.Service
             _greetingRL = greetingRL;
         }
 
+<<<<<<< HEAD
         public bool DeleteGreeting(int id)
         {
             return _greetingRL.DeleteGreeting(id);
@@ -29,13 +30,14 @@ namespace BusinessLayer.Service
             return _greetingRL.UpdateGreeting(id, newValue);
         }
 
-        public List<GreetingDTO> GetAllGreetings(){
-		return _greetingRL.GetAllGreetings();
-        }
-
-	public GreetingDTO GetGreetingById(int id)
+        public List<GreetingDTO> GetAllGreetings()
+        {
+            return _greetingRL.GetAllGreetings();
+=======
+        public GreetingDTO GetGreetingById(int id)
         {
             return _greetingRL.GetGreetingById(id);
+>>>>>>> UC5
         }
 
         public bool AddGreeting(GreetingDTO greetingDTO)
