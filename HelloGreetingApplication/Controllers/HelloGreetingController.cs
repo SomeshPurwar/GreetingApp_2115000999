@@ -250,6 +250,37 @@ namespace HelloGreetingApplication.Controllers
             });
         }
 
+        [HttpPut("{id:int}")]
+        public IActionResult UpdateGreeting(int id, [FromBody] string newValue)
+        {
+            if (string.IsNullOrWhiteSpace(newValue))
+            {
+                return BadRequest(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "New value cannot be empty.",
+                    Data = null
+                });
+            }
+            bool success = _greetingBL.UpdateGreeting(id, newValue);
+            if (!success)
+            {
+                return NotFound(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "Greeting not found.",
+                    Data = null
+                });
+            }
+
+            return Ok(new ResponseModel<string>
+            {
+                Success = true,
+                Message = "Greeting updated successfully.",
+                Data = newValue
+            });
+        }
+
 
 
 

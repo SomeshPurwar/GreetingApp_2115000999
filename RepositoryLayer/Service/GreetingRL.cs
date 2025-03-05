@@ -19,6 +19,15 @@ namespace RepositoryLayer.Service
             _context = context;
         }
 
+        public bool UpdateGreeting(int id, string newValue)
+        {
+            var greeting = _context.Greetings.FirstOrDefault(g => g.Id == id);
+            if (greeting == null) return false;
+
+            greeting.Value = newValue;
+            return _context.SaveChanges() > 0;
+        }
+
         public List<GreetingDTO> GetAllGreetings()
         {
             return _context.Greetings
