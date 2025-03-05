@@ -19,6 +19,11 @@ namespace BusinessLayer.Service
             _greetingRL = greetingRL;
         }
 
+        public bool UpdateGreeting(int id, string newValue)
+        {
+            return _greetingRL.UpdateGreeting(id, newValue);
+        }
+
         public List<GreetingDTO> GetAllGreetings()
         {
             return _greetingRL.GetAllGreetings();
