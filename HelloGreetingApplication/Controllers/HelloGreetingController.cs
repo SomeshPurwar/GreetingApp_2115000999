@@ -26,7 +26,7 @@ namespace HelloGreetingApplication.Controllers
         /// </summary>
         /// <returns> "Hello World" </returns>
         [HttpGet]
-        public IActionResult GetMethod() 
+        public IActionResult GetMethod()
         {
             ResponseModel<string> responseModel = new ResponseModel<string>();
             responseModel.Success = true;
@@ -41,7 +41,8 @@ namespace HelloGreetingApplication.Controllers
         /// <param name="requestModel"></param>
         /// <returns> response model</returns>
         [HttpPost]
-        public IActionResult Post(RequestModel requestModel) {
+        public IActionResult Post(RequestModel requestModel)
+        {
             if (requestModel == null || string.IsNullOrWhiteSpace(requestModel.Key) || string.IsNullOrWhiteSpace(requestModel.Value))
             {
                 return BadRequest(new ResponseModel<string>
@@ -78,7 +79,7 @@ namespace HelloGreetingApplication.Controllers
         /// <param name="newValue"></param>
         /// <returns>Updated greeting message</returns>
         [HttpPut("{key}")]
-        public IActionResult Put(string key, string newValue) 
+        public IActionResult Put(string key, string newValue)
         {
             if (!greetings.ContainsKey(key))
             {
@@ -97,7 +98,7 @@ namespace HelloGreetingApplication.Controllers
                 Message = "Greeting updated successfully.",
                 Data = $"Key: {key}, Value: {newValue}"
             });
-        
+
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace HelloGreetingApplication.Controllers
         /// <param name="key"></param>
         /// <returns>Deleted greeting message</returns>
         [HttpDelete]
-        public IActionResult Delete(string key) 
+        public IActionResult Delete(string key)
         {
             if (!greetings.ContainsKey(key))
             {
@@ -129,7 +130,7 @@ namespace HelloGreetingApplication.Controllers
         }
 
         [HttpPatch("{key}")]
-        public IActionResult Patch(string key, string partialUpdate) 
+        public IActionResult Patch(string key, string partialUpdate)
         {
             if (!greetings.ContainsKey(key))
             {
@@ -156,7 +157,7 @@ namespace HelloGreetingApplication.Controllers
         [HttpGet("Greet")]
         public IActionResult GetGreeting()
         {
-            var greetingMessage = _greetingBL.GetGreetingMessage(null,null);
+            var greetingMessage = _greetingBL.GetGreetingMessage(null, null);
             var response = new ResponseModel<string>
             {
                 Success = true,
@@ -342,6 +343,8 @@ namespace HelloGreetingApplication.Controllers
                 Data = id.ToString()
             });
         }
+
+
 
 
 
