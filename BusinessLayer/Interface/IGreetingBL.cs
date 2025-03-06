@@ -17,6 +17,7 @@ namespace BusinessLayer.Interface
 
         bool AddGreeting(GreetingDTO greetingDTO);
 
+        GreetingDTO GetGreetingById(int id);
         List<GreetingDTO> GetAllGreetings();
 
         bool UpdateGreeting(int id, string newValue);
