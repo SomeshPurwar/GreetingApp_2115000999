@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Service;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("GreetingDB");
@@ -17,6 +18,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGreetingBL,GreetingBL>();
 builder.Services.AddScoped<IGreetingRL, GreetingRL>();
+//Add Redis
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
 
 
 var app = builder.Build();
