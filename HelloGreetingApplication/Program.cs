@@ -1,8 +1,12 @@
+using System.Text;
+using BusinessLayer.Helper;
 using BusinessLayer.Interface;
 using BusinessLayer.Middleware;
 using BusinessLayer.Service;
 using HelloGreetingApplication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
@@ -29,8 +33,12 @@ builder.Services.AddSwaggerGen(c =>
     // Register Custom Operation Filter
     c.OperationFilter<CustomSwaggerOperations>();
 });
+
 builder.Services.AddScoped<IGreetingBL,GreetingBL>();
 builder.Services.AddScoped<IGreetingRL, GreetingRL>();
+builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddScoped<IUserRL, UserRL>();
+
 
 //Add Redis
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
@@ -39,7 +47,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Conn
 // Register middleware as a service
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
-
+builder.Services.AddSingleton<PasswordHasher>();
 
 
 
@@ -53,6 +61,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

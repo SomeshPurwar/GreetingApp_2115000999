@@ -14,5 +14,6 @@ namespace RepositoryLayer.Context
         public GreetingDBContext(DbContextOptions<GreetingDBContext> options) : base(options) { }
 
         public DbSet<GreetingEntity> Greetings { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
