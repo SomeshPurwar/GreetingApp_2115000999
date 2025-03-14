@@ -45,15 +45,22 @@ namespace HelloGreetingApplication.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public IActionResult ForgotPassword([FromBody] ForgotPasswordDTO forgotPasswordDTO)
+        public IActionResult ForgotPassword([FromBody] ForgotPasswordDTO forgotPasswordDto)
         {
+            var success = _userBL.ForgotPassword(forgotPasswordDto);
+            if (!success)
+                return NotFound(new { Success = false, Message = "Email not found." });
+
             return Ok(new { Success = true, Message = "Password reset email sent." });
         }
 
-
         [HttpPost("reset-password")]
-        public IActionResult ResetPassword([FromBody] ResetPasswordDTO resetPasswordDTO)
+        public IActionResult ResetPassword([FromBody] ResetPasswordDTO resetPasswordDto)
         {
+            var success = _userBL.ResetPassword(resetPasswordDto);
+            if (!success)
+                return BadRequest(new { Success = false, Message = "Invalid or expired reset token." });
+
             return Ok(new { Success = true, Message = "Password reset successful." });
         }
     }

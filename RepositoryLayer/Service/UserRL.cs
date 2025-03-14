@@ -29,5 +29,11 @@ namespace RepositoryLayer.Service
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
+
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+        }
     }
 }
