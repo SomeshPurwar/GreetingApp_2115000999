@@ -1,4 +1,5 @@
-﻿using BusinessLayer.Interface;
+﻿using BusinessLayer.Helper;
+using BusinessLayer.Interface;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.DTO;
 using RepositoryLayer.DTO;
@@ -10,17 +11,25 @@ namespace HelloGreetingApplication.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserBL _userBL;
+        private readonly JwtHelper _jwtHelper;
 
-        public UserController(IUserBL userBL)
+
+        public UserController(IUserBL userBL, JwtHelper jwtHelper)
         {
             _userBL = userBL;
+            _jwtHelper = jwtHelper;
         }
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserDTO userDTO)
         {
             var registeredUser = _userBL.Register(userDTO);
-            return Ok(new { Success = true, Message = "User registered successfully." });
+            if (registeredUser == null)
+                return BadRequest(new { Success = false, Message = "User registration failed." });
+
+            var token = _jwtHelper.GenerateToken(registeredUser.Email, registeredUser.Id); 
+
+            return Ok(new { Success = true, Message = "User registered successfully.", Token = token });
         }
 
         [HttpPost("login")]
@@ -30,7 +39,9 @@ namespace HelloGreetingApplication.Controllers
             if (user == null)
                 return Unauthorized(new { Success = false, Message = "Invalid credentials." });
 
-            return Ok(new { Success = true, Message = "Login successful." });
+            var token = _jwtHelper.GenerateToken(user.Email, user.Id); 
+
+            return Ok(new { Success = true, Message = "Login successful.", Token = token });
         }
 
         [HttpPost("forgot-password")]
