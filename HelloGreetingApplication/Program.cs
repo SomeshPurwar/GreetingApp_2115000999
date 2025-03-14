@@ -68,6 +68,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Conn
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSingleton<PasswordHasher>();
+builder.Services.AddSingleton<EmailService>();
 
 
 

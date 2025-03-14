@@ -11,5 +11,7 @@ namespace RepositoryLayer.Interface
     {
         User Register(User user);
         User GetUserByEmail(string email);
+
+        public void UpdateUser(User user);
     }
 }
