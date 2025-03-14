@@ -29,9 +29,9 @@ namespace BusinessLayer.Service
             return _greetingRL.UpdateGreeting(id, newValue);
         }
 
-        public List<GreetingDTO> GetAllGreetings()
+        public List<GreetingDTO> GetAllGreetings(int userId)
         {
-            return _greetingRL.GetAllGreetings();
+            return _greetingRL.GetAllGreetings(userId);
         }
 
         public GreetingDTO GetGreetingById(int id)
@@ -39,9 +39,9 @@ namespace BusinessLayer.Service
             return _greetingRL.GetGreetingById(id);
         }
 
-        public bool AddGreeting(GreetingDTO greetingDTO)
+        public bool AddGreeting(GreetingDTO greetingDTO, int userId)
         {
-            return _greetingRL.AddGreeting(greetingDTO);
+            return _greetingRL.AddGreeting(greetingDTO, userId);
         }
 
         public string GetGreetingMessage(string firstName, string lastName)

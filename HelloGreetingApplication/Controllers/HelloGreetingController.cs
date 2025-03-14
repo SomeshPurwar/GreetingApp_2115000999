@@ -1,3 +1,4 @@
+﻿using System.Security.Claims;
 using BusinessLayer.Interface;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -220,7 +221,19 @@ namespace HelloGreetingApplication.Controllers
                 });
             }
 
-            if (!_greetingBL.AddGreeting(greetingDTO))
+            // ✅ Fix: Add a null check for UserId before parsing
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+            {
+                return Unauthorized(new ResponseModel<string>
+                {
+                    Success = false,
+                    Message = "User authentication failed. Please log in.",
+                    Data = null
+                });
+            }
+
+            if (!_greetingBL.AddGreeting(greetingDTO, userId))
             {
                 return Conflict(new ResponseModel<string>
                 {
@@ -237,6 +250,8 @@ namespace HelloGreetingApplication.Controllers
                 Data = $"{greetingDTO.Key}:{greetingDTO.Value}"
             });
         }
+
+
         /// <summary>
         /// Get method to retrieve a greeting by its ID.
         /// </summary>
@@ -271,7 +286,8 @@ namespace HelloGreetingApplication.Controllers
         [HttpGet("getallgreeting")]
         public IActionResult GetAllGreetings()
         {
-            List<GreetingDTO> greetings = _greetingBL.GetAllGreetings();
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value); 
+            List<GreetingDTO> greetings = _greetingBL.GetAllGreetings(userId);
 
             return Ok(new ResponseModel<List<GreetingDTO>>
             {

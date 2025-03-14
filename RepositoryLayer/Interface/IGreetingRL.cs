@@ -11,10 +11,10 @@ namespace RepositoryLayer.Interface
     public interface IGreetingRL
     {
         string GetGreeting();
-        bool AddGreeting(GreetingDTO greetingDTO);
+        bool AddGreeting(GreetingDTO greetingDTO, int userId);
         GreetingDTO GetGreetingById(int id);
 
-        List<GreetingDTO> GetAllGreetings();
+        List<GreetingDTO> GetAllGreetings(int userId);
 
         bool UpdateGreeting(int id, string newValue);
 

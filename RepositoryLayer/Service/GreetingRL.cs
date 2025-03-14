@@ -23,7 +23,7 @@ namespace RepositoryLayer.Service
             _cache = redis.GetDatabase();
         }
 
-        
+
 
         public bool DeleteGreeting(int id)
         {
@@ -33,32 +33,43 @@ namespace RepositoryLayer.Service
             _context.Greetings.Remove(greeting);
             bool result = _context.SaveChanges() > 0;
 
-            if (result) _cache.KeyDelete("AllGreetings"); 
+            if (result)
+            {
+                _cache.KeyDelete($"Greeting:{id}");
+                _cache.KeyDelete($"AllGreetings:{greeting.UserId}");
+            }
             return result;
         }
+
 
         public bool UpdateGreeting(int id, string newValue)
         {
             var greeting = _context.Greetings.FirstOrDefault(g => g.Id == id);
             if (greeting == null) return false;
 
-            greeting.Value = newValue;
+            greeting.Value = newValue; 
             bool result = _context.SaveChanges() > 0;
 
-            if (result) _cache.KeyDelete("AllGreetings");
+            if (result)
+            {
+                _cache.KeyDelete($"Greeting:{id}"); 
+                _cache.KeyDelete($"AllGreetings:{greeting.UserId}");
+            }
             return result;
         }
 
-        public List<GreetingDTO> GetAllGreetings()
+
+        public List<GreetingDTO> GetAllGreetings(int userId)
         {
-            string cacheKey = "AllGreetings";
+            string cacheKey = $"AllGreetings:{userId}";
             string cachedGreetings = _cache.StringGet(cacheKey);
 
             if (!string.IsNullOrEmpty(cachedGreetings))
                 return JsonSerializer.Deserialize<List<GreetingDTO>>(cachedGreetings);
 
             var greetings = _context.Greetings
-                .Select(g => new GreetingDTO { Key = g.Key, Value = g.Value })
+                .Where(g => g.UserId == userId)
+                .Select(g => new GreetingDTO { Key = g.Key, Value = g.Value, UserId = g.UserId })
                 .ToList();
 
             _cache.StringSet(cacheKey, JsonSerializer.Serialize(greetings));
@@ -66,6 +77,7 @@ namespace RepositoryLayer.Service
 
             return greetings;
         }
+
 
         public GreetingDTO GetGreetingById(int id)
         {
@@ -78,32 +90,36 @@ namespace RepositoryLayer.Service
             var greeting = _context.Greetings.FirstOrDefault(g => g.Id == id);
             if (greeting == null) return null;
 
-            var greetingDTO = new GreetingDTO { Key = greeting.Key, Value = greeting.Value };
+            var greetingDTO = new GreetingDTO
+            {
+                Key = greeting.Key,
+                Value = greeting.Value,
+                UserId = greeting.UserId  
+            };
 
-            // Store in Redis
             _cache.StringSet(cacheKey, JsonSerializer.Serialize(greetingDTO));
-            _cache.KeyExpire(cacheKey, TimeSpan.FromMinutes(10));  // Cache expires in 10 minutes
+            _cache.KeyExpire(cacheKey, TimeSpan.FromMinutes(10));  
 
             return greetingDTO;
         }
 
-        public bool AddGreeting(GreetingDTO greetingDTO)
+        public bool AddGreeting(GreetingDTO greetingDTO, int userId)
         {
-            if (_context.Greetings.Any(g => g.Key == greetingDTO.Key))
+            if (_context.Greetings.Any(g => g.Key == greetingDTO.Key && g.UserId == userId))
                 return false;
 
             var greeting = new GreetingEntity
             {
                 Key = greetingDTO.Key,
-                Value = greetingDTO.Value
+                Value = greetingDTO.Value,
+                UserId = userId
             };
 
             _context.Greetings.Add(greeting);
             bool result = _context.SaveChanges() > 0;
 
-            if (result) _cache.KeyDelete("AllGreetings");
+            if (result) _cache.KeyDelete($"AllGreetings:{userId}"); 
             return result;
-
         }
 
         public string GetGreeting()

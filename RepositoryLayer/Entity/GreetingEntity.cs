@@ -20,5 +20,11 @@ namespace RepositoryLayer.Entity
 
         [Required]
         public string Value { get; set; }
+        // Foreign Key for User
+        [Required]
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; } // Navigation property
     }
 }
