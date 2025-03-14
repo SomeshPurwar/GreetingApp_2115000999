@@ -15,11 +15,13 @@ namespace BusinessLayer.Interface
         string GetGreetingMessage(string firstName, string lastName);
         string GetPersonalizedGreeting(GreetingRequestModel request);
 
-        bool AddGreeting(GreetingDTO greetingDTO);
+        bool AddGreeting(GreetingDTO greetingDTO, int userId);
 
         GreetingDTO GetGreetingById(int id);
-	List<GreetingDTO> GetAllGreetings();
-        
+
+        List<GreetingDTO> GetAllGreetings(int userId);
+
+
         bool UpdateGreeting(int id, string newValue);
         bool DeleteGreeting(int id);
         

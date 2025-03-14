@@ -58,7 +58,7 @@ namespace BusinessLayer.Service
             string resetToken = _jwtHelper.GeneratePasswordResetToken(user.Email);
 
             // Send Email with Reset Token
-            string resetLink = $"https://yourfrontend.com/reset-password?token={resetToken}";
+            string resetLink = $"https://localhost:7150/reset-password?token={resetToken}";
             string emailBody = $"Click <a href='{resetLink}'>here</a> to reset your password.";
 
             return _emailService.SendEmail(user.Email, "Password Reset Request", emailBody);
