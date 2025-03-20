@@ -19,12 +19,14 @@ namespace BusinessLayer.Service
         private readonly IUserRL _userRepository;
         private readonly JwtHelper _jwtHelper;
         private readonly EmailService _emailService;
+        private readonly RabbitMQProducer _emailProducer;
 
-        public UserBL(IUserRL userRepository , JwtHelper jwtHelper, EmailService emailService)
+        public UserBL(IUserRL userRepository , JwtHelper jwtHelper, EmailService emailService, RabbitMQProducer emailProducer)
         {
             _userRepository = userRepository;
             _jwtHelper = jwtHelper;
             _emailService = emailService;
+            _emailProducer = emailProducer;
         }
 
         public User Register(UserDTO userDTO)
@@ -61,7 +63,9 @@ namespace BusinessLayer.Service
             string resetLink = $"https://localhost:7150/reset-password?token={resetToken}";
             string emailBody = $"Click <a href='{resetLink}'>here</a> to reset your password.";
 
-            return _emailService.SendEmail(user.Email, "Password Reset Request", emailBody);
+            _emailProducer.PublishEmail(user.Email, "Password Reset Request", emailBody);
+            //return _emailService.SendEmail(user.Email, "Password Reset Request", emailBody);
+            return true;
         }
 
         public bool ResetPassword(ResetPasswordDTO resetPasswordDto)

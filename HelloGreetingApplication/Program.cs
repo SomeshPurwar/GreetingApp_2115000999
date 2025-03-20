@@ -5,9 +5,11 @@ using BusinessLayer.Middleware;
 using BusinessLayer.Service;
 using HelloGreetingApplication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using RepositoryLayer.Context;
 using RepositoryLayer.Interface;
 using RepositoryLayer.Service;
@@ -63,12 +65,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //Add Redis
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
+//RabbitMQ
+var rabbitMQSettings = builder.Configuration.GetSection("RabbitMQ");
+
+builder.Services.AddSingleton<RabbitMQ.Client.IConnectionFactory>(_ => new ConnectionFactory
+{
+    HostName = rabbitMQSettings["HostName"],
+    Port = int.Parse(rabbitMQSettings["Port"]),
+    UserName = rabbitMQSettings["UserName"],
+    Password = rabbitMQSettings["Password"]
+});
+
 
 // Register middleware as a service
 builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSingleton<PasswordHasher>();
 builder.Services.AddSingleton<EmailService>();
+builder.Services.AddSingleton<RabbitMQProducer>(); 
+builder.Services.AddHostedService<RabbitMQConsumer>();
+
 
 
 
